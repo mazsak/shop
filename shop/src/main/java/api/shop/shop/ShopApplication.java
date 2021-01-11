@@ -3,6 +3,7 @@ package api.shop.shop;
 import api.shop.shop.service.DirectoryService;
 import api.shop.shop.service.ProductService;
 import api.shop.shop.service.SubdirectoryService;
+import api.shop.shop.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -14,6 +15,7 @@ public class ShopApplication {
     private final DirectoryService directoryService;
     private final SubdirectoryService subdirectoryService;
     private final ProductService productService;
+    private final UserService userService;
 
     public static void main(String[] args) {
         SpringApplication.run(ShopApplication.class, args);
