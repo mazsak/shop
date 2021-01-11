@@ -4,7 +4,7 @@ import java.util.List;
 
 public interface BasicService<CLASS, ID> {
 
-    CLASS save(CLASS object);
+    boolean save(CLASS object);
 
     List<CLASS> saveAll(List<CLASS> objects);
 

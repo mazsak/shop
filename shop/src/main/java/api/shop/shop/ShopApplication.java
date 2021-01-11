@@ -1,23 +1,19 @@
 package api.shop.shop;
 
-import api.shop.shop.model.Directory;
-import api.shop.shop.model.Subdirectory;
 import api.shop.shop.service.DirectoryService;
+import api.shop.shop.service.ProductService;
 import api.shop.shop.service.SubdirectoryService;
 import lombok.AllArgsConstructor;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import java.util.Arrays;
-import java.util.List;
-
 @SpringBootApplication
 @AllArgsConstructor
-public class ShopApplication /*implements CommandLineRunner*/ {
+public class ShopApplication {
 
     private final DirectoryService directoryService;
     private final SubdirectoryService subdirectoryService;
+    private final ProductService productService;
 
     public static void main(String[] args) {
         SpringApplication.run(ShopApplication.class, args);
