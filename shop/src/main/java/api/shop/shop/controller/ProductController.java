@@ -5,12 +5,12 @@ import api.shop.shop.model.Product;
 import api.shop.shop.service.ProductService;
 import api.shop.shop.utils.ItemsResponse;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
-import java.util.List;
 
 @RestController
 @RequestMapping("/products")
@@ -21,21 +21,35 @@ public class ProductController {
 
     @GetMapping(value = "/", produces = "application/json")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<List<Product>> findProducts(@RequestParam(required = false) String directory,
+    public ResponseEntity<ItemsResponse> findProducts(@RequestParam(required = false) String directory,
                                                       @RequestParam(required = false) String subdirectory,
                                                       @RequestParam int current,
                                                       @RequestParam int size) {
         ItemsResponse itemsResponse = new ItemsResponse();
         if (directory == null && subdirectory == null) {
-            List<Product> allProducts = productService.getAllProducts(current, size);
-
-            return ResponseEntity.ok(allProducts);
+            Page<Product> allProducts = productService.getAllProducts(current - 1, size);
+            itemsResponse.setCurrentPage(current);
+            itemsResponse.setPageSize(size);
+            itemsResponse.setProducts(allProducts.getContent());
+            itemsResponse.setTotalItems(allProducts.getTotalElements());
+            itemsResponse.setTotalPages(allProducts.getTotalPages());
+            return ResponseEntity.ok(itemsResponse);
         } else if (directory != null && subdirectory == null) {
-            List<Product> directoryProducts = productService.getDirectoryProducts(directory, current, size);
-            return ResponseEntity.ok(directoryProducts);
+            Page<Product> directoryProducts = productService.getDirectoryProducts(directory, current - 1, size);
+            itemsResponse.setCurrentPage(current);
+            itemsResponse.setPageSize(size);
+            itemsResponse.setProducts(directoryProducts.getContent());
+            itemsResponse.setTotalItems(directoryProducts.getTotalElements());
+            itemsResponse.setTotalPages(directoryProducts.getTotalPages());
+            return ResponseEntity.ok(itemsResponse);
         } else {
-            List<Product> subdirectoryProducts = productService.getSubdirectoryProducts(subdirectory, current, size);
-            return ResponseEntity.ok(subdirectoryProducts);
+            Page<Product> subdirectoryProducts = productService.getSubdirectoryProducts(subdirectory, current - 1, size);
+            itemsResponse.setCurrentPage(current);
+            itemsResponse.setPageSize(size);
+            itemsResponse.setProducts(subdirectoryProducts.getContent());
+            itemsResponse.setTotalItems(subdirectoryProducts.getTotalElements());
+            itemsResponse.setTotalPages(subdirectoryProducts.getTotalPages());
+            return ResponseEntity.ok(itemsResponse);
         }
     }
 

@@ -16,5 +16,6 @@ public class ItemsResponse {
     List<Product> products;
     int currentPage;
     int pageSize;
-    int pageAmount;
+    int totalPages;
+    long totalItems;
 }
