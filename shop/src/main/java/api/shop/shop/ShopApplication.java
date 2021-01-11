@@ -37,5 +37,25 @@ public class ShopApplication {
 //            }
 //            directoryService.save(directory);
 //        }
-//    }
+//        Random random = new Random();
+//        List<Subdirectory> subdirectories = subdirectoryService.findAll();
+//        for (Subdirectory sub : subdirectories) {
+//            Product product = new Product();
+//            product.setName("a" + random.nextInt() + "qwertyuiopasdfghjklzxcvbnm".charAt(random.nextInt("qwertyuiopasdfghjklzxcvbnm".length())));
+//            product.setDescription("AAAAAAAAAAAAAAAA");
+//            product.setPrice(49.99);
+//            product.setStockAmount(1);
+//            product.setSubdirectory(sub);
+//            productService.save(product);
+//        }
+//        for (Subdirectory sub : subdirectories) {
+//            Product product = new Product();
+//            product.setName("b" + random.nextInt() + "qwertyuiopasdfghjklzxcvbnm".charAt(random.nextInt("qwertyuiopasdfghjklzxcvbnm".length())));
+//            product.setDescription("AAAAAAAAAAAAAAAA");
+//            product.setPrice(49.99);
+//            product.setStockAmount(2);
+//            product.setSubdirectory(sub);
+//            productService.save(product);
+//        }
 }
+
