@@ -1,13 +1,45 @@
 package api.shop.shop;
 
+import api.shop.shop.model.Directory;
+import api.shop.shop.model.Subdirectory;
+import api.shop.shop.service.DirectoryService;
+import api.shop.shop.service.SubdirectoryService;
+import lombok.AllArgsConstructor;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import java.util.Arrays;
+import java.util.List;
+
 @SpringBootApplication
-public class ShopApplication {
+@AllArgsConstructor
+public class ShopApplication /*implements CommandLineRunner*/ {
 
-	public static void main(String[] args) {
-		SpringApplication.run(ShopApplication.class, args);
-	}
+    private final DirectoryService directoryService;
+    private final SubdirectoryService subdirectoryService;
 
+    public static void main(String[] args) {
+        SpringApplication.run(ShopApplication.class, args);
+    }
+
+//    @Override
+//    public void run(String... args) throws Exception {
+//        List<String> directories = Arrays.asList("Electronics", "Fashion", "Garden", "Motorization", "Sport");
+//        List<List<String>> subdirectories = Arrays.asList(Arrays.asList("Phones", "Computers", "Household appliances"),
+//                Arrays.asList("For him","For her","For children"),
+//                Arrays.asList("Plants","Gardening equipment","Furniture"),
+//                Arrays.asList("Cars","Car parts","Car accessories"),
+//                Arrays.asList("Bicycles and accessories","Gym and fitness","Fishing"));
+//        for (int i = 0; i < directories.size(); i++){
+//            Directory directory = new Directory();
+//            directory.setName(directories.get(i));
+//            for (int j =0; j < subdirectories.get(i).size(); j++){
+//                Subdirectory subdirectory = new Subdirectory();
+//                subdirectory.setName(subdirectories.get(i).get(j));
+//                directory.addSubdirectory(subdirectory);
+//            }
+//            directoryService.save(directory);
+//        }
+//    }
 }
