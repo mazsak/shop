@@ -19,7 +19,7 @@ public class ProductController {
 
     private final ProductService productService;
 
-    @GetMapping(value = "/", produces = "application/json")
+    @GetMapping(value = "", produces = "application/json")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<ItemsResponse> findProducts(@RequestParam(required = false) String directory,
                                                       @RequestParam(required = false) String subdirectory,
@@ -53,7 +53,7 @@ public class ProductController {
         }
     }
 
-    @PostMapping(value = "/", produces = "application/json")
+    @PostMapping(value = "", produces = "application/json")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<Product> createProduct(@RequestBody Product product) {
         try {
