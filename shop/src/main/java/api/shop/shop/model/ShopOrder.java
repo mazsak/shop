@@ -12,7 +12,7 @@ import java.util.List;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class Order {
+public class ShopOrder {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)

@@ -22,11 +22,17 @@ public class ProductController {
 
     @GetMapping(value = "", produces = "application/json")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<ItemsResponse> findProducts(@RequestParam(required = false) String directory,
-                                                      @RequestParam(required = false) String subdirectory,
+    public ResponseEntity<ItemsResponse> findProducts(@RequestParam String directory,
+                                                      @RequestParam String subdirectory,
                                                       @RequestParam int current,
                                                       @RequestParam int size) {
         ItemsResponse itemsResponse = new ItemsResponse();
+        if (directory.equals("")) {
+            directory = null;
+        }
+        if (subdirectory.equals("")) {
+            subdirectory = null;
+        }
         if (directory == null && subdirectory == null) {
             Page<Product> allProducts = productService.getAllProducts(current - 1, size);
             itemsResponse.setCurrentPage(current);
