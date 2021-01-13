@@ -26,7 +26,7 @@ public class ShopUser implements UserDetails {
     private String password;
     @OneToOne
     private UserRole role;
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     private List<ShopOrder> orderList;
 
     @Override

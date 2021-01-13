@@ -14,6 +14,7 @@ public class ShopApplication {
     private final ProductService productService;
     private final UserService userService;
     private final UserRoleService userRoleService;
+    private final ShopOrderService shopOrderService;
 
     public static void main(String[] args) {
         SpringApplication.run(ShopApplication.class, args);
@@ -65,6 +66,20 @@ public class ShopApplication {
 //        userRoleService.save(role);
 //        shopUser.setRole(role);
 //        userService.save(shopUser);
+//        Product p = productService.findById((long) 21);
+//        ShopOrder o = new ShopOrder();
+//        List<Product> productList = o.getItems() == null ? new ArrayList<>() : o.getItems();
+//        productList.add(p);
+//        o.setItems(productList);
+//        o.setOrderNumber("ABC123");
+//        o.setTotalPrice(33.33);
+//        shopOrderService.save(o);
+//
+//        ShopUser u = userService.findById(55L);
+//        List<ShopOrder> shopOrderList = new ArrayList<>();
+//        shopOrderList.add(shopOrderService.findById(60L));
+//        u.setOrderList(shopOrderList);
+//        userService.update(55L, u);
 //    }
 }
 

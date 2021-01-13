@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -53,13 +54,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         httpSecurity.csrf().disable().cors().and().headers().frameOptions().disable().and()
                 // dont authenticate this particular request
                 .authorizeRequests()
+                .antMatchers(HttpMethod.POST, "/products").hasRole("ADMIN")
+                .antMatchers(HttpMethod.PUT, "/products/product/**").hasRole("ADMIN")
+                .antMatchers(HttpMethod.DELETE, "/products/product/**").hasRole("ADMIN")
                 .antMatchers("/user/login",
-                        "/user/register", "/products/**").permitAll()
-                .and()
-                .authorizeRequests()
-                .antMatchers("/directory/").hasRole("ADMIN").
-                // all other requests need to be authenticated
-                        anyRequest().authenticated().and().
+                        "/user/register", "/products/**",
+                        "/directory/").permitAll().
+                anyRequest().authenticated().and().
                 // make sure we use stateless session; session won't be used to
                 // store user's state.
                         exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and().sessionManagement()

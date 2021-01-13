@@ -19,7 +19,7 @@ public class ShopOrder {
     private Long id;
     @Column(unique = true)
     private String orderNumber;
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     private List<Product> items;
     private double totalPrice;
 }
