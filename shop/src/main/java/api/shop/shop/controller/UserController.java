@@ -1,5 +1,6 @@
 package api.shop.shop.controller;
 
+import api.shop.shop.model.Product;
 import api.shop.shop.model.ShopOrder;
 import api.shop.shop.model.ShopUser;
 import api.shop.shop.security.configuration.JwtTokenUtil;
@@ -14,11 +15,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @CrossOrigin
 @RestController
@@ -32,7 +35,6 @@ public class UserController {
     private final JwtTokenUtil jwtTokenUtil;
     private final UserRoleService userRoleService;
     private final ShopOrderService shopOrderService;
-    private final PasswordEncoder passwordEncoder;
 
     @PostMapping(value = "/login", produces = "application/json")
     @ResponseStatus(HttpStatus.OK)
@@ -59,7 +61,11 @@ public class UserController {
 
     @PostMapping(value = "/orders", produces = "application/json")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<?> addNewOrder(@RequestBody ShopOrder order, Authentication authentication) {
+    public ResponseEntity<?> addNewOrder(@RequestBody List<Product> items, Authentication authentication) {
+        ShopOrder order = new ShopOrder();
+        order.setItems(items);
+        order.setOrderNumber(new String(new byte[15], StandardCharsets.UTF_8));
+        order.setTotalPrice(items.stream().mapToDouble(Product::getPrice).sum());
         shopOrderService.save(order);
         ShopUser user = (ShopUser) authentication.getPrincipal();
         List<ShopOrder> orderList = user.getOrderList() == null ? new ArrayList<>() : user.getOrderList();

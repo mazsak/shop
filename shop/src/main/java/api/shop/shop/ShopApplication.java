@@ -1,7 +1,9 @@
 package api.shop.shop;
 
+import api.shop.shop.model.UserRole;
 import api.shop.shop.service.*;
 import lombok.AllArgsConstructor;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -62,9 +64,12 @@ public class ShopApplication {
 //        shopUser.setUsername("admin");
 //        shopUser.setPassword("admin");
 //        UserRole role = new UserRole();
-//        role.setName("USER");
+//        role.setName("ROLE_USER");
 //        userRoleService.save(role);
-//        shopUser.setRole(role);
+//        UserRole role1 = new UserRole();
+//        role1.setName("ROLE_ADMIN");
+//        userRoleService.save(role1);
+        //        shopUser.setRole(role);
 //        userService.save(shopUser);
 //        Product p = productService.findById((long) 21);
 //        ShopOrder o = new ShopOrder();
