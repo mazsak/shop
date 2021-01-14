@@ -17,11 +17,10 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Random;
 
 @CrossOrigin
 @RestController
@@ -64,7 +63,9 @@ public class UserController {
     public ResponseEntity<?> addNewOrder(@RequestBody List<Product> items, Authentication authentication) {
         ShopOrder order = new ShopOrder();
         order.setItems(items);
-        order.setOrderNumber(new String(new byte[15], StandardCharsets.UTF_8));
+        byte[] array = new byte[15];
+        new Random().nextBytes(array);
+        order.setOrderNumber(new String(array, StandardCharsets.UTF_8));
         order.setTotalPrice(items.stream().mapToDouble(Product::getPrice).sum());
         shopOrderService.save(order);
         ShopUser user = (ShopUser) authentication.getPrincipal();
