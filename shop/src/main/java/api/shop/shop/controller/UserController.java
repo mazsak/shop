@@ -34,6 +34,14 @@ public class UserController {
     private final ProductService productService;
     private final ShopOrderService shopOrderService;
 
+    @GetMapping(value = "/role", produces = "application/json")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<?> getRole(Authentication authentication) {
+        ShopUser user = (ShopUser) authentication.getPrincipal();
+        return ResponseEntity.ok(user.getRole().getName());
+    }
+
+
     @PostMapping(value = "/login", produces = "application/json")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<?> login(@RequestBody JwtRequest user) {
@@ -89,7 +97,7 @@ public class UserController {
         }
         for (ShopItem shopItem : shopItems) {
             Product product = shopItem.getProduct();
-            product.setStockAmount(product.getStockAmount()-shopItem.getAmount());
+            product.setStockAmount(product.getStockAmount() - shopItem.getAmount());
             productService.save(product);
         }
         shopItemService.saveAll(shopItems);
