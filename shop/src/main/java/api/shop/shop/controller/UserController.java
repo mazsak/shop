@@ -1,14 +1,13 @@
 package api.shop.shop.controller;
 
 import api.shop.shop.model.Product;
+import api.shop.shop.model.ShopItem;
 import api.shop.shop.model.ShopOrder;
 import api.shop.shop.model.ShopUser;
 import api.shop.shop.security.configuration.JwtTokenUtil;
 import api.shop.shop.security.models.JwtRequest;
 import api.shop.shop.security.models.JwtResponse;
-import api.shop.shop.service.ShopOrderService;
-import api.shop.shop.service.UserRoleService;
-import api.shop.shop.service.UserService;
+import api.shop.shop.service.*;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,10 +16,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 @CrossOrigin
 @RestController
@@ -33,6 +30,8 @@ public class UserController {
     private final UserService userService;
     private final JwtTokenUtil jwtTokenUtil;
     private final UserRoleService userRoleService;
+    private final ShopItemService shopItemService;
+    private final ProductService productService;
     private final ShopOrderService shopOrderService;
 
     @PostMapping(value = "/login", produces = "application/json")
@@ -58,14 +57,43 @@ public class UserController {
         return ResponseEntity.ok(principal.getOrderList());
     }
 
+
     @PostMapping(value = "/orders", produces = "application/json")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<?> addNewOrder(@RequestBody List<Product> items, Authentication authentication) {
         ShopOrder order = new ShopOrder();
-        order.setItems(items);
-        byte[] array = new byte[15];
-        new Random().nextBytes(array);
-        order.setOrderNumber(new String(array, StandardCharsets.UTF_8));
+        List<ShopItem> shopItems = new ArrayList<>();
+        for (Product product : items) {
+            if (shopItems.isEmpty()) {
+                ShopItem item = new ShopItem();
+                item.setProduct(product);
+                item.setAmount(1);
+                shopItems.add(item);
+            } else {
+                boolean newItem = true;
+                for (ShopItem it : shopItems) {
+                    if (it.getProduct().getId().equals(product.getId())) {
+                        it.setAmount(it.getAmount() + 1);
+                        newItem = false;
+                        break;
+                    }
+                }
+                if (newItem) {
+                    ShopItem item = new ShopItem();
+                    item.setProduct(product);
+                    item.setAmount(1);
+                    shopItems.add(item);
+                }
+
+            }
+        }
+        for (ShopItem shopItem : shopItems) {
+            Product product = shopItem.getProduct();
+            product.setStockAmount(product.getStockAmount()-shopItem.getAmount());
+            productService.save(product);
+        }
+        shopItemService.saveAll(shopItems);
+        order.setShopItems(shopItems);
         order.setTotalPrice(items.stream().mapToDouble(Product::getPrice).sum());
         shopOrderService.save(order);
         ShopUser user = (ShopUser) authentication.getPrincipal();
