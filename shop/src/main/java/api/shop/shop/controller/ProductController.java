@@ -27,10 +27,10 @@ public class ProductController {
                                                       @RequestParam int current,
                                                       @RequestParam int size) {
         ItemsResponse itemsResponse = new ItemsResponse();
-        if (directory.isEmpty()) {
+        if (directory.equals("")) {
             directory = null;
         }
-        if (subdirectory.isEmpty()) {
+        if (subdirectory.equals("")) {
             subdirectory = null;
         }
         if (directory == null && subdirectory == null) {

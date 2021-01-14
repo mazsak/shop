@@ -11,15 +11,10 @@ import javax.persistence.*;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class Product {
-
+public class UserRole {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
     private String name;
-    private String description;
-    @OneToOne
-    private Subdirectory subdirectory;
-    private double price;
-    private int stockAmount;
+
 }

@@ -1,8 +1,6 @@
 package api.shop.shop;
 
-import api.shop.shop.service.DirectoryService;
-import api.shop.shop.service.ProductService;
-import api.shop.shop.service.SubdirectoryService;
+import api.shop.shop.service.*;
 import lombok.AllArgsConstructor;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -14,6 +12,9 @@ public class ShopApplication {
     private final DirectoryService directoryService;
     private final SubdirectoryService subdirectoryService;
     private final ProductService productService;
+    private final UserService userService;
+    private final UserRoleService userRoleService;
+    private final ShopOrderService shopOrderService;
 
     public static void main(String[] args) {
         SpringApplication.run(ShopApplication.class, args);
@@ -57,5 +58,28 @@ public class ShopApplication {
 //            product.setSubdirectory(sub);
 //            productService.save(product);
 //        }
+//        ShopUser shopUser = new ShopUser();
+//        shopUser.setUsername("admin");
+//        shopUser.setPassword("admin");
+//        UserRole role = new UserRole();
+//        role.setName("USER");
+//        userRoleService.save(role);
+//        shopUser.setRole(role);
+//        userService.save(shopUser);
+//        Product p = productService.findById((long) 21);
+//        ShopOrder o = new ShopOrder();
+//        List<Product> productList = o.getItems() == null ? new ArrayList<>() : o.getItems();
+//        productList.add(p);
+//        o.setItems(productList);
+//        o.setOrderNumber("ABC123");
+//        o.setTotalPrice(33.33);
+//        shopOrderService.save(o);
+//
+//        ShopUser u = userService.findById(55L);
+//        List<ShopOrder> shopOrderList = new ArrayList<>();
+//        shopOrderList.add(shopOrderService.findById(60L));
+//        u.setOrderList(shopOrderList);
+//        userService.update(55L, u);
+//    }
 }
 
