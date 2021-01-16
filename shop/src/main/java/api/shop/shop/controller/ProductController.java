@@ -2,7 +2,9 @@ package api.shop.shop.controller;
 
 
 import api.shop.shop.model.Product;
+import api.shop.shop.model.ShopItem;
 import api.shop.shop.service.ProductService;
+import api.shop.shop.service.ShopItemService;
 import api.shop.shop.utils.ItemsResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -11,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.util.List;
 
 @CrossOrigin
 @RestController
@@ -19,6 +22,13 @@ import java.net.URI;
 public class ProductController {
 
     private final ProductService productService;
+    private final ShopItemService shopItemService;
+
+    @GetMapping(value = "/all", produces = "application/json")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<List<Product>> findProducts() {
+        return ResponseEntity.ok(productService.findAll());
+    }
 
     @GetMapping(value = "", produces = "application/json")
     @ResponseStatus(HttpStatus.OK)
@@ -98,6 +108,10 @@ public class ProductController {
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<Product> removeProduct(@PathVariable final Long id) {
         try {
+            List<ShopItem> shopItems = shopItemService.findByProductId(id);
+            shopItems.forEach( shopItem -> shopItem.setProduct(null));
+            shopItemService.saveAll(shopItems);
+
             boolean removed = productService.deleteById(id);
             if (removed) {
                 return ResponseEntity.ok().build();

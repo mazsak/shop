@@ -17,7 +17,7 @@ public class ShopItem {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
-    @OneToOne
+    @OneToOne(orphanRemoval = true)
     private Product product;
     private int amount;
 }

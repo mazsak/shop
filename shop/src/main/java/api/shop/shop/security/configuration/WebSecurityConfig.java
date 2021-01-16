@@ -59,7 +59,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.DELETE, "/products/product/**").hasRole("ADMIN")
                 .antMatchers("/user/login",
                         "/user/register", "/products/**",
-                        "/directory/").permitAll().
+                        "/directory/**").permitAll().
                 anyRequest().authenticated().and().
                 // make sure we use stateless session; session won't be used to
                 // store user's state.
