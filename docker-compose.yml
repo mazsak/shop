@@ -1,0 +1,25 @@
+version: '3'
+services:
+  backend:
+    depends_on:
+      - database
+    build:
+      context: .
+      dockerfile: backend.dockerfile
+    ports:
+      - "8080:8080"
+    container_name: spring_backend
+  frontend:
+    build:
+      context: .
+      dockerfile: frontend.dockerfile
+    container_name: react_frontend
+    ports:
+      - "3000:3000"
+  database:
+    build:
+      context: .
+      dockerfile: database.dockerfile
+    ports:
+      - "5432:5432"
+    container_name: postgre_database
