@@ -22,7 +22,7 @@ public class Directory {
     @Column(unique = true)
     private String name;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany
     private List<Subdirectory> subdirectories;
 
     public void addSubdirectory(Subdirectory subdirectory){
