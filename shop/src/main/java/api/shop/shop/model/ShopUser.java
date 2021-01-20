@@ -17,6 +17,8 @@ import java.util.List;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
+@EqualsAndHashCode
 public class ShopUser implements UserDetails {
 
     @Id
@@ -24,6 +26,7 @@ public class ShopUser implements UserDetails {
     private Long id;
     private String username;
     private String password;
+    private String mail;
     @OneToOne
     private UserRole role;
     @OneToMany(fetch = FetchType.EAGER)

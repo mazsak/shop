@@ -11,7 +11,9 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ShopOrder {
+@Builder
+@EqualsAndHashCode
+public class ShopOrder  {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)

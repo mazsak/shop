@@ -17,8 +17,9 @@ public class BasicServiceImpl<CLASS, CLASS_REPO extends JpaRepository<CLASS, ID>
     }
 
     @Override
-    public List<CLASS> saveAll(List<CLASS> objects) {
-        return repo.saveAll(objects);
+    public boolean saveAll(List<CLASS> objects) {
+        repo.saveAll(objects);
+        return true;
     }
 
     @Override

@@ -8,6 +8,11 @@ services:
       dockerfile: backend.dockerfile
     ports:
       - "8080:8080"
+    environment:
+      -  SPRING_DATASOURCE_USERNAME=shop
+      -  SPRING_DATASOURCE_PASSWORD=shop
+      -  SPRING_JPA_HIBERNATE_DDL_AUTO=update
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://database:5432/shop
     container_name: spring_backend
   frontend:
     build:
@@ -17,9 +22,11 @@ services:
     ports:
       - "3000:3000"
   database:
-    build:
-      context: .
-      dockerfile: database.dockerfile
+    image: postgres:latest
     ports:
       - "5432:5432"
-    container_name: postgre_database
+    container_name: postgres_database
+    environment:
+      POSTGRES_DB: "shop"
+      POSTGRES_USER: "shop"
+      POSTGRES_PASSWORD: "shop"

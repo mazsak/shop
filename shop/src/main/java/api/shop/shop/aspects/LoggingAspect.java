@@ -25,10 +25,14 @@ public class LoggingAspect {
 
     @Before("getServicePointcut()")
     public void loggingBeforeExecution(JoinPoint joinPoint) {
-        logger = Logger.getLogger(joinPoint.getSignature().getDeclaringTypeName());
+        logger = Logger.getLogger(joinPoint.getTarget().getClass().getName());
         logger.info(() -> {
             StringBuilder sb = new StringBuilder();
-            sb.append(joinPoint.getSignature()).append(", args:");
+            sb
+                    .append(joinPoint.getTarget().getClass().getName())
+                    .append(".")
+                    .append(joinPoint.getSignature().getName())
+                    .append(", args:");
             for (Object o : joinPoint.getArgs()) {
                 sb.append("'").append(o).append("' ");
             }

@@ -6,7 +6,7 @@ public interface BasicService<CLASS, ID> {
 
     boolean save(CLASS object);
 
-    List<CLASS> saveAll(List<CLASS> objects);
+    boolean saveAll(List<CLASS> objects);
 
     boolean deleteById(ID id);
 

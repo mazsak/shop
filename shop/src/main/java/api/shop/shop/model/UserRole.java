@@ -11,6 +11,8 @@ import javax.persistence.*;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
+@EqualsAndHashCode
 public class UserRole {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)

@@ -33,6 +33,7 @@ public class UserController {
     private final ShopItemService shopItemService;
     private final ProductService productService;
     private final ShopOrderService shopOrderService;
+    private final EmailService emailService;
 
     @GetMapping(value = "/role", produces = "application/json")
     @ResponseStatus(HttpStatus.OK)
@@ -55,6 +56,8 @@ public class UserController {
     public ResponseEntity<?> register(@RequestBody ShopUser user) {
         user.setRole(userRoleService.getRoleByName("ROLE_USER"));
         userService.save(user);
+        emailService.send(user.getMail(), "Registration completed", "You have been successfully " +
+                "registered to our shop app.\nWELCOME " + user.getUsername() + "!");
         return ResponseEntity.ok(user);
     }
 
@@ -108,6 +111,15 @@ public class UserController {
         List<ShopOrder> orderList = user.getOrderList() == null ? new ArrayList<>() : user.getOrderList();
         orderList.add(order);
         userService.update(user.getId(), user);
+        StringBuilder builder = new StringBuilder();
+        shopItems.forEach(item -> builder.append(item.getProduct().getName())
+                .append(" - ")
+                .append(item.getAmount())
+                .append(" - ")
+                .append(item.getProduct().getPrice())
+                .append("$\n"));
+        builder.append("Total price:").append(order.getTotalPrice()).append("$\n");
+        emailService.send(user.getMail(), "Order #" + order.getId(), builder.toString());
         return ResponseEntity.ok(order);
     }
 }
